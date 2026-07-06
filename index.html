@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pi Date Finder</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23087f8c'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='38' fill='white' font-family='Georgia'%3E%CF%80%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <canvas id="digitCanvas" aria-hidden="true"></canvas>
+
+    <main class="app-shell">
+      <section class="tool-panel" aria-labelledby="appTitle">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">&pi;</div>
+          <div>
+            <p class="eyebrow">Date position search</p>
+            <h1 id="appTitle">Pi Date Finder</h1>
+          </div>
+        </div>
+
+        <form class="search-form" id="searchForm" autocomplete="off">
+          <label class="field-label" for="dateInput">Date in DDMMYYYY</label>
+          <div class="input-row">
+            <input
+              id="dateInput"
+              name="dateInput"
+              type="text"
+              inputmode="numeric"
+              maxlength="8"
+              pattern="[0-9]{8}"
+              placeholder="06072026"
+              aria-describedby="inputStatus"
+              required
+            >
+            <button class="primary-action" id="searchButton" type="submit">Find</button>
+          </div>
+          <p class="input-status" id="inputStatus" role="status">Waiting for an 8 digit date.</p>
+        </form>
+
+        <div class="control-strip" aria-label="Search depth">
+          <button class="depth-option is-selected" type="button" data-depth="50000">50k</button>
+          <button class="depth-option" type="button" data-depth="250000">250k</button>
+          <button class="depth-option" type="button" data-depth="1000000">1m</button>
+          <button class="ghost-action" id="deeperButton" type="button">Deeper</button>
+          <button class="ghost-action danger" id="stopButton" type="button" disabled>Stop</button>
+        </div>
+
+        <div class="meter-wrap" aria-label="Search progress">
+          <div class="meter">
+            <div class="meter-fill" id="meterFill"></div>
+          </div>
+          <div class="meter-labels">
+            <span id="cachedLabel">Cached 0 decimals</span>
+            <span id="targetLabel">Target 50,000</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="result-panel" aria-label="Search result">
+        <div class="result-header">
+          <p class="eyebrow">Place after decimal</p>
+          <output class="result-number" id="resultNumber">--</output>
+        </div>
+
+        <div class="date-chip" id="dateChip">No date selected</div>
+
+        <div class="digit-window" id="digitWindow" aria-live="polite">
+          <span class="muted">pi = 3.</span><span id="digitBefore">14159265358979323846</span>
+        </div>
+
+        <dl class="stats-grid">
+          <div>
+            <dt>Match</dt>
+            <dd id="matchLabel">Not searched</dd>
+          </div>
+          <div>
+            <dt>Checked</dt>
+            <dd id="checkedLabel">0 decimals</dd>
+          </div>
+          <div>
+            <dt>Cache</dt>
+            <dd id="cacheLabel">Session only</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
